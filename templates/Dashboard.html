@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employer Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(rgba(0,0,0,0.75),rgba(199, 44, 44, 0.75)), url(templates/flower.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: #f1f1f1;
+            padding: 20px;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .sidebar li {
+            margin-bottom: 10px;
+        }
+        .sidebar a {
+            text-decoration: none;
+            color: #333;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .logo h1 {
+            text-align: center;
+            color: #333;
+        }
+        .edit-btn, .delete-btn {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 0 5px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+        }
+        .edit-btn {
+            background-color: #4CAF50;
+        }
+        .delete-btn {
+            background-color: #f44336;
+        }
+        .edit-btn:hover, .delete-btn:hover {
+            opacity: 0.8;
+        }
+        #currencySelector {
+            padding: 8px 12px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f8f8f8;
+            color: #333;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+        #currencySelector:hover {
+            background-color: #e8e8e8;
+        }
+        #currencySelector:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+        }
+        .payroll-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .payroll-table th, .payroll-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .payroll-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .payroll-table input[type="number"] {
+            width: 100px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">
+                <h1>Employers Management</h1>
+            </div>
+            <ul>
+                <li><a href="/staff">Staff</a></li>
+                <li><a href="/payroll">Payroll</a></li>
+                <li><a href="/home">Logout</a></li>
+            </ul>
+        </div>
+        <div class="content">
+            {% if feature == 'staff' %}
+                <h2>Staff Management</h2>
+                <table class="staff-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Position</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for employee in staff %}
+                        <tr>
+                            <td>{{ employee['name'] }}</td>
+                            <td>{{ employee['position'] }}</td>
+                            <td>
+                                <a href="/edit_staff/{{ employee['id'] }}" class="edit-btn"><i class="fas fa-edit"></i></a>
+                                <a href="/delete_staff/{{ employee['id'] }}" class="delete-btn"><i class="fas fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% elif feature == 'payroll' %}
+                <h2>Monthly Payroll Management</h2>
+                <select id="currencySelector" onchange="updateCurrency()">
+                    <option value="$">USD ($)</option>
+                    <option value="€">EUR (€)</option>
+                    <option value="£">GBP (£)</option>
+                    <option value="¥">JPY (¥)</option>
+                    <option value="₣">CHF (₣)</option>
+                    <option value="C$">CAD (C$)</option>
+                    <option value="A$">AUD (A$)</option>
+                    <option value="₹">INR (₹)</option>
+                    <option value="元">CNY (元)</option>
+                    <option value="₽">RUB (₽)</option>
+                    <option value="R$">BRL (R$)</option>
+                    <option value="₩">KRW (₩)</option>
+                    <option value="₺">TRY (₺)</option>
+                    <option value="kr">SEK (kr)</option>
+                    <option value="zł">PLN (zł)</option>
+                    <option value="R">ZAR (R)</option>
+                    <option value="$">MXN ($)</option>
+                    <option value="S$">SGD (S$)</option>
+                    <option value="฿">THB (฿)</option>
+                    <option value="₪">ILS (₪)</option>
+                    <option value="₦">NGN (₦)</option>
+                </select>
+                <table class="payroll-table">
+                    <thead>
+                        <tr>
+                            <th>Employee Name</th>
+                            <th>Position</th>
+                            <th>Monthly Salary</th>
+                            <th>Overtime Hours</th>
+                            <th>Overtime Pay</th>
+                            <th>Total Monthly Pay</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for employee in payroll %}
+                        <tr>
+                            <td>{{ employee['name'] }}</td>
+                            <td>{{ employee['position'] }}</td>
+                            <td><span class="currency-symbol">$</span><input type="number" class="salary-input" value="{{ employee['monthly_salary'] }}" onchange="updatePayroll(this)"></td>
+                            <td><input type="number" class="overtime-input" value="{{ employee['overtime_hours'] }}" onchange="updatePayroll(this)"></td>
+                            <td><span class="currency-symbol">$</span><span class="overtime-pay">{{ employee['overtime_pay'] }}</span></td>
+                            <td><span class="currency-symbol">$</span><span class="total-pay">{{ employee['total_monthly_pay'] }}</span></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            {% else %}
+                <h2>Welcome to your Dashboard</h2>
+                <!-- Add default dashboard content here -->
+            {% endif %}
+        </div>
+    </div>
+    <script>
+    function updateCurrency() {
+        var symbol = document.getElementById('currencySelector').value;
+        var symbols = document.getElementsByClassName('currency-symbol');
+        for (var i = 0; i < symbols.length; i++) {
+            symbols[i].textContent = symbol;
+        }
+    }
+
+    function updatePayroll(input) {
+        var row = input.closest('tr');
+        var salary = parseFloat(row.querySelector('.salary-input').value);
+        var overtimeHours = parseFloat(row.querySelector('.overtime-input').value);
+        var overtimeRate = 1.5 * (salary / (4 * 40));
+        var overtimePay = overtimeHours * overtimeRate;
+        var totalPay = salary + overtimePay;
+
+        row.querySelector('.overtime-pay').textContent = overtimePay.toFixed(2);
+        row.querySelector('.total-pay').textContent = totalPay.toFixed(2);
+    }
+    </script>
+</body>
+</html>

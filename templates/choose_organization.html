@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employers Management</title>
+    <style>
+        body {
+            background-image: linear-gradient(rgba(0,0,0,0.75),rgba(199, 44, 44, 0.75)), url(flower.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        select {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            transition: 0.5s;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Choose an Organization</h1>
+        <form action="/choose_organization" method="POST">
+            <select name="organization_id">
+                {% for id, org in organizations.items() %}
+                    <option value="{{ id }}">{{ org.name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Select Organization</button>
+        </form>
+    </div>
+</body>
+</html>

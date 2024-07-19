@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employers Management</title>
+</head>
+<style>
+   
+    
+    body{
+        background-image: linear-gradient(rgba(0,0,0,0.75),rgba(199, 44, 44, 0.75)), url("flower.png");
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 100vh;
+        margin: 0;
+        padding: 20px;
+        justify-content: center;
+        align-items: center;
+        
+    }
+    
+    
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-top: 10px;
+        }
+        input, textarea {
+            margin-bottom: 15px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .already-account{
+            padding: 10px;
+        }
+        .already-account a{
+            text-decoration: none;
+        }
+        
+        .container #add_staff{
+
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            transition: 0.5s;
+            cursor: pointer;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-top: 10px;
+        }
+        .container #add_staff:hover{
+            background-color: #359638;
+        }
+        .container h1{
+            font-size: 50px;
+            text-align: center;
+            cursor: pointer;
+        }
+        /* ... existing styles ... */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+</style>
+<body>
+    <form action="/Add Staff">
+        <div class="container">
+            <h1>Staff Management</h1>
+            {% if feature == 'staff' %}
+            <h2>Staff Management</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Phone Number</th>
+                        <th>Position</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for staff in staff_list %}
+                    <tr>
+                        <td>{{ staff.name }}</td>
+                        <td>{{ staff.phone_number }}</td>
+                        <td>{{ staff.position }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% elif feature == 'payroll' %}
+            <!-- ... rest of the code ... -->
+        
+            </table>
+            <button  type="submit">Add Staff</button>
+        </div>
+    </form>
+
+    
+    
+</body>
+</html>

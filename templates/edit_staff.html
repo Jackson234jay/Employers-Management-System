@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Staff</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(rgba(0,0,0,0.75),rgba(199, 44, 44, 0.75)), url(templates/flower.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            margin: 20px;
+        }
+        h2 {
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #333;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <h2>Edit Staff Member</h2>
+            <form method="POST" action="/edit_staff/{{ id }}">
+                <input type="text" name="name" value="{{ staff['name'] }}" required>
+                <input type="text" name="position" value="{{ staff['position'] }}" required>
+                <button type="submit">Update Staff</button>
+            </form>
+            <a href="/staff">Back to Staff List</a>
+        </div>
+    </div>
+</body>
+</html>
